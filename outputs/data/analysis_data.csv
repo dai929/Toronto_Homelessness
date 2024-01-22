@@ -1,0 +1,67 @@
+year,cause_of_death,count
+2017,Accident,5
+2017,Cancer,9
+2017,Cardiovascular Disease,14
+2017,Drug Toxicity,32
+2017,Homicide,1
+2017,Other,8
+2017,Pneumonia,3
+2017,Suicide,3
+2017,Unknown/Pending,25
+2018,Accident,5
+2018,Cancer,1
+2018,Cardiovascular Disease,14
+2018,Drug Toxicity,33
+2018,Homicide,5
+2018,Other,10
+2018,Pneumonia,4
+2018,Suicide,4
+2018,Unknown/Pending,18
+2019,Accident,9
+2019,Cancer,9
+2019,Cardiovascular Disease,15
+2019,Drug Toxicity,39
+2019,Homicide,7
+2019,Other,11
+2019,Pneumonia,8
+2019,Suicide,2
+2019,Unknown/Pending,27
+2020,Accident,1
+2020,COVID-19,4
+2020,Cancer,3
+2020,Cardiovascular Disease,14
+2020,Drug Toxicity,75
+2020,Homicide,4
+2020,Other,9
+2020,Pneumonia,2
+2020,Suicide,4
+2020,Unknown/Pending,27
+2021,Accident,9
+2021,COVID-19,3
+2021,Cancer,7
+2021,Cardiovascular Disease,15
+2021,Drug Toxicity,127
+2021,Homicide,1
+2021,Other,12
+2021,Pneumonia,2
+2021,Suicide,7
+2021,Unknown/Pending,34
+2022,Accident,6
+2022,COVID-19,1
+2022,Cancer,10
+2022,Cardiovascular Disease,22
+2022,Drug Toxicity,90
+2022,Homicide,1
+2022,Other,4
+2022,Pneumonia,1
+2022,Suicide,7
+2022,Unknown/Pending,47
+2023,Accident,2
+2023,Cancer,4
+2023,Cardiovascular Disease,1
+2023,Drug Toxicity,36
+2023,Homicide,1
+2023,Other,2
+2023,Pneumonia,1
+2023,Suicide,2
+2023,Unknown/Pending,30
