@@ -4,6 +4,8 @@
 
 This repo analyzes the data from Open Data Toronto about the cause of death for homeless people to address the issue of substance abuse in the shelter system.
 
+Large Language Models (LLM's) were not used in any way, shape, or form for the production of this paper.
+
 ## File Structure
 
 The repo is structured as:
