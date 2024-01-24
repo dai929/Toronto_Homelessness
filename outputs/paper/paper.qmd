@@ -1,6 +1,118 @@
 ---
 title: "Investigating drug toxicity as the major cause of death for people experiencing homelessness."
+author: ---
+title: "Investigating drug toxicity as the major cause of death for people experiencing homelessness."
 author: "Daisy Huo"
+thanks: "Code and data are available at: https://github.com/dai929/Toronto_Homelessness.git"
+date: today
+date-format: long
+abstract: "Statistics on deaths for people experiencing homelessness were collected from Open Data Toronto to analyze the nine major causes of death for homeless people from the year 2017 to 2023. After summarizing the data, we were able to identify drug toxicity as the leading fatal cause for homeless people that should be addressed. In this paper, we will further investigate the association with the issue of substance abuse and homelessness, aiming to discuss a few factors that contributed to the consistently high number of deaths on account of drug abuse. The analysis can provide solid evidence for further study on how the government can potentially step in and reduce the rate of death caused by drug toxicity for homeless individuals."
+format: pdf
+number-sections: true
+bibliography: references.bib
+---
+
+{r}
+#| include: false
+#| warning: false
+#| message: false
+
+### Workspace set-up ###
+
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(opendatatoronto)
+library(readr)
+library(ggplot2)
+library(knitr)
+library(here)
+
+Introduction
+
+Homelessness has always been a widely discussed and concerned topic in Canada. Canadian Definition of Homelessness [@HomelessnessDef] described homelessness as an individual being stuck in a dilemma who is incapable of acquiring "stable, permanent, appropriate housing". Indeed, when the term "homelessness" was ever brought up, we were immediately reminded of its bonded correlation with the housing issue. However, in this report, we wish to address another underrepresented while pressing problem that is also constantly connected with homeless people.
+
+As one of the most populated cities in Canada, Toronto deals with a great figure of homeless people every day. According to statistics reported [@HomelessnessTorontoStat], there are over 9000 people experiencing homelessness every night in the city of Toronto. While the government and public focused their attention primarily on solving the housing issue, such as providing shelters and subsidized housing, substance abuse has become a comparably urgent issue for these people. In 2010, BMC Public Health [@HomelessDrugStat] collected a shockingly high percentage of drug-taking problems in the 1191 study samples. About forty percent of these homeless individuals were found to have some related drug abuse issues, and trends of diminishing mental health status were also concluded in the article. There are many reasons for an individual to start doing drugs; examples include weak self-control, poor quality of living standards leading to poor mental health status, and so on. The definition of homelessness undoubtedly helps to fit in these lines of description for substance abuse.
+
+To investigate the relationship between the topics of homelessness and drug abuse in advance, this paper pulls data about deaths of people experiencing homelessness by causes from Open Data Toronto [@CauseOfDeathOpenData] and analyzes the dataset with tables and graphs. Under the Data section, I will discuss the steps of cleaning and graphing the summarized data, which are used to support the main findings of this paper. Under the Discussion section, I will briefly talk about the results of the analysis and discuss how and why are these results important for future studies.
+
+Data
+
+The dataset utilized in this paper was taken from the City of Toronto's Open Data Toronto package [@Ropendatatoronto] and is entitled "Deaths of People Experiencing Homelessness" [@CauseOfDeathOpenData]. Data was collected, cleaned, and analyzed using the statistical programming software R [@citeR], with additional support from R packages "tidyverse" [@Rtidyverse], "dplyr" [@Rdylyr], "readr" [@Rreadr], "janitor" [@Rjanitor], "knitr" [@Rknitr], "here" [@Rhere] and "ggplot2" [@Rggplot2].
+
+Dataset Overview
+
+Our primary raw dataset is a summary of death counts for homeless people, beginning with the year 2017 and being categorized by nine major causes of death. Categories with less interest and focus were "Age_group" and "Gender", which we chose to neglect in this paper. I cleaned this raw data by eliminating the two columns mentioned before and simplifying the names if necessary. Next, note that there are duplications under the column "Cause_of_death". I combined identical causes of death for each year and summed up the counts.
+
+{r}
+#| message: false
+#| echo: false
+#| label: table1-analyzed-data
+#| table1-cap: Sample of Cleaned Death Counts for Homeless People by Causes Dataset
+
+### Read data ###
+
+cleaned_homeless_data <-
+  read_csv(
+    here::here("outputs/data/analysis_data.csv")
+  )
+
+head(cleaned_homeless_data, 9) |>
+  kable(
+    col = c("Year", "Cause of Death", "Count"),
+    caption = "Sample of Cleaned Death Counts for Homeless People by Causes Dataset",
+    linesep = "",
+    booktabs = TRUE
+  )
+
+Table 1 provides the sample observations from the year 2017, and we can easily identify the largest number of counts under Drug Toxicity, which aligns with our assumption. In the cleaned dataset, this finding is not a solo case. With the data collected, we found drug toxicity remained to be the largest cause of death for the following years. In Table 2, we will extract rows of drug toxicity look at this major cause of death solely for each year, and analyze the trends behind those numbers.
+
+{r}
+#| message: false
+#| echo: false
+#| label: table2-Subset-of-Drug-Toxicity
+#| table2-cap: Subset of Drug Toxicity
+
+head(cleaned_homeless_data |>
+  filter(cause_of_death == "Drug Toxicity"), 7) |>
+  select(-cause_of_death) |>
+  kable(
+    col = c("Year", "Count"),
+    caption = "Subset of Drug Toxicity",
+    linesep = "",
+    booktabs = TRUE
+    )
+
+The number of deaths caused by substance abuse spiked from the year 2020 to 2022 and reached a peak of 127 deaths in 2021. Possible explanations for this trend can be argued due to the outbreak of the COVID-19 pandemic. Unstable communities and individuals are more affected by the pandemic since they lack stable economic income and housing. The issue of drug addiction can be much more severe and lethal in these three years. This also explains the descending death counts caused by drug-taking in 2023. As a result, we can associate homelessness with substance abuse and see how social instability impacted those individuals and urged drug use as a relief of stresses and strains of public life.
+
+{r, fig.cap="Death Counts by Causes of Death over Time", fig.width=8, fig.height=10}
+#| message: false
+#| echo: false
+#| warning: false
+#| label: figure1-Graph
+#| figure1-cap: Death Counts by Causes of Death over Time
+
+cleaned_homeless_data |>
+  ggplot(aes(x = year, y = count, color = cause_of_death)) +
+  geom_point() +
+  theme_minimal() +
+  labs(x = "Year", y = "Count", color = "Count of Death") +
+  scale_color_brewer(palette = "Set1") +
+  theme(
+    legend.position = "bottom"
+    )
+
+Figure 1 indicated the relationship between the count of deaths and the year in which the data was recorded and highlighted the causes of death by different colours. After we plotted out every sample point on the analyzed dataset, we obtained a better understanding and visual realization of how drug toxicity stands to be the major cause of death for individuals experiencing homelessness. As other causes of death appear to be minor compared to drug abuse, we need to inform and stress this finding in our analysis.
+
+Discussion
+
+The results from the Data section suggest that the problem of substance abuse has become the largest cause of death for homeless people. In addition, our data proposes a possible connection between the deaths of homeless individuals due to drug toxicity and social instability. The city of Toronto has put much effort into solving the housing issue and providing food and health care for homeless people. With all of those in mind, this paper reveals the potential danger of drug overdose, pending an inquiry into this problem associated with the mental health of people experiencing homelessness. The municipal government may take this analysis into consideration and investigate the reasons why drug addiction acts as a major cause of homeless individuals' deaths. Solutions that the government may provide include setting up a drug rehabilitation center and prohibiting drug use and, more essentially, drug dealing inside the shelter system.
+
+\newpage
+
+References
+
+"Daisy Huo"
 thanks: "Code and data are available at: https://github.com/dai929/Toronto_Homelessness.git"
 date: today
 date-format: long
